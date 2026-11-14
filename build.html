@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Build your agent: Cozy Maple Heating & Cooling</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&display=swap" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&display=swap"></noscript>
+<style>
+:root{
+  --bg:#EEF0FF;--surface:#FFFFFF;--ink:#14163A;--muted:#55597F;--line:#14163A;
+  --blue:#3346E8;--on-blue:#FFFFFF;--sun:#FFC93C;--mint:#16936A;--coral:#D4402F;--soft:#DDE1FF;--code:#F3F4FF;
+  --wa-bg:#ECE5DD;--wa-me:#DCF8C6;--wa-them:#FFFFFF;--wa-head:#075E54;--wa-ink:#111B21;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  color-scheme:dark;--bg:#101231;--surface:#1B1E48;--ink:#EEF0FF;--muted:#A9ADD6;--line:#8C93F0;
+  --blue:#6F7DFF;--on-blue:#0E1030;--soft:#272B60;--mint:#3DD39A;--coral:#FF7A6B;--code:#14163A;
+  --wa-bg:#0B141A;--wa-me:#005C4B;--wa-them:#202C33;--wa-head:#1F2C34;--wa-ink:#E9EDEF;}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#101231;--surface:#1B1E48;--ink:#EEF0FF;--muted:#A9ADD6;--line:#8C93F0;
+  --blue:#6F7DFF;--on-blue:#0E1030;--soft:#272B60;--mint:#3DD39A;--coral:#FF7A6B;--code:#14163A;
+  --wa-bg:#0B141A;--wa-me:#005C4B;--wa-them:#202C33;--wa-head:#1F2C34;--wa-ink:#E9EDEF;}
+*,*::before,*::after{box-sizing:inherit}
+[hidden]{display:none!important}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.5 "Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif}
+h1,h2,h3{font-family:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;line-height:1.12;margin:0 0 .4em}
+h1{font-size:clamp(1.7rem,5vw,2.6rem);font-weight:800;letter-spacing:-.02em}
+h2{font-size:1.25rem;font-weight:800}
+.wrap{max-width:1180px;margin:0 auto;padding:18px 16px 50px}
+.top{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:6px}
+.top .sp{flex:1}
+.tag{display:inline-block;font-weight:700;font-size:.82rem;padding:2px 10px;border-radius:999px;border:1.5px solid var(--line);background:var(--soft);color:var(--ink)}
+.tag.ok{background:var(--mint);color:#fff;border-color:var(--mint)}
+.tag.sun{background:var(--sun);color:#14163A}
+.lead{color:var(--muted);margin:0 0 16px;max-width:70ch}
+.layout{display:grid;gap:20px;grid-template-columns:minmax(0,1fr)}
+.layout>*{min-width:0}
+@media(min-width:900px){.layout{grid-template-columns:400px minmax(0,1fr);align-items:start}}
+.phone{background:var(--wa-bg);border:2.5px solid var(--line);border-radius:28px;overflow:hidden;box-shadow:6px 6px 0 var(--line);display:flex;flex-direction:column;height:min(720px,82vh)}
+@media(min-width:900px){.phone{position:sticky;top:calc(12px + env(safe-area-inset-top,0px))}}
+.wahead{background:var(--wa-head);color:#fff;padding:12px 14px;display:flex;align-items:center;gap:10px}
+.wahead .pic{width:38px;height:38px;border-radius:50%;background:#FFC93C;display:grid;place-items:center;font-size:1.3rem;flex:none}
+.wahead b{display:block;font-size:1rem}.wahead small{opacity:.85}
+.msgs{flex:1;overflow-y:auto;padding:14px 12px;display:flex;flex-direction:column;gap:8px}
+.b{max-width:85%;padding:8px 11px;border-radius:10px;color:var(--wa-ink);white-space:pre-wrap;word-break:break-word;font-size:.97rem;box-shadow:0 1px 1px rgba(0,0,0,.12)}
+.b.me{align-self:flex-end;background:var(--wa-me);border-top-right-radius:2px}
+.b.them{align-self:flex-start;background:var(--wa-them);border-top-left-radius:2px}
+.b .t{display:block;text-align:right;font-size:.7rem;opacity:.6;margin-top:2px}
+.sys{align-self:center;font-size:.8rem;background:var(--wa-them);color:var(--wa-ink);padding:4px 10px;border-radius:8px;opacity:.9;text-align:center;max-width:90%}
+.typing{align-self:flex-start;background:var(--wa-them);color:var(--wa-ink);padding:8px 12px;border-radius:10px;font-size:.88rem}
+.confirm{align-self:flex-start;background:var(--wa-them);color:var(--wa-ink);border-radius:10px;padding:10px 12px;max-width:88%;border:2px solid var(--mint)}
+.confirm .row{margin-top:8px}
+.chips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:thin;padding:8px 10px;background:var(--wa-bg);border-top:1px solid rgba(0,0,0,.08)}
+.chip{all:unset;box-sizing:border-box;cursor:pointer;white-space:nowrap;font-size:.85rem;padding:6px 11px;border-radius:999px;background:var(--wa-them);color:var(--wa-ink);border:1.5px solid var(--mint)}
+.chip:focus-visible,.btn:focus-visible,input:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.compose{display:flex;gap:8px;padding:8px 10px;background:var(--wa-bg)}
+.compose input{flex:1;min-width:0;font:inherit;padding:10px 14px;border-radius:999px;border:none;background:var(--wa-them);color:var(--wa-ink)}
+.send{all:unset;cursor:pointer;width:42px;height:42px;border-radius:50%;background:#00A884;color:#fff;display:grid;place-items:center;font-size:1.1rem;flex:none}
+.send[disabled]{opacity:.5;cursor:default}
+.btn{all:unset;box-sizing:border-box;cursor:pointer;display:inline-flex;align-items:center;gap:6px;font-weight:700;padding:8px 14px;border-radius:999px;background:var(--blue);color:var(--on-blue);border:2px solid var(--line);font-size:.92rem}
+.btn.ghost{background:var(--surface);color:var(--ink)}
+.btn.ok{background:#00A884;color:#fff;border-color:#00A884}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.card{background:var(--surface);border:2px solid var(--line);border-radius:18px;padding:16px;box-shadow:4px 4px 0 var(--line);margin-bottom:16px}
+.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:16px}
+@media(min-width:640px){.kpis{grid-template-columns:repeat(4,1fr)}}
+.kpi{background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:12px 14px;box-shadow:3px 3px 0 var(--line)}
+.kpi small{color:var(--muted);font-weight:700;display:block}
+.kpi b{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-size:1.7rem;font-weight:800;line-height:1.1}
+.kpi.hi{background:var(--sun);color:#14163A}.kpi.hi small{color:#14163A}
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{border-bottom:1.5px solid var(--soft);padding:7px 8px;text-align:left;vertical-align:top}
+th{font-size:.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:.03em}
+tr.new td{background:rgba(255,201,60,.25)}
+.log{list-style:none;padding:0;margin:0;display:grid;gap:8px;max-height:300px;overflow-y:auto}
+.log li{font-size:.88rem}
+.call{font-family:ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;font-size:.8rem;background:var(--code);border:1.5px solid var(--soft);border-radius:8px;padding:6px 8px;white-space:pre-wrap;word-break:break-word}
+.okc{color:var(--mint);font-weight:700}.bad{color:var(--coral);font-weight:700}
+.mem{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.mem span{font-size:.85rem;padding:3px 10px;border-radius:999px;background:var(--soft);border:1.5px solid var(--line)}
+.price{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}
+.price div{border:2px solid var(--line);border-radius:12px;padding:10px;text-align:center}
+.price b{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-size:1.5rem;display:block}
+.note{color:var(--muted);font-size:.86rem}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.buildgrid{display:grid;gap:18px;grid-template-columns:minmax(0,1fr)}
+@media(min-width:820px){.buildgrid{grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);align-items:start}#box{position:sticky;top:calc(10px + env(safe-area-inset-top,0px))}}
+.bigicon{font-size:2rem;width:56px;height:56px;display:grid;place-items:center;border-radius:16px;border:2px solid var(--line);background:var(--sun);box-shadow:3px 3px 0 var(--line);flex:none}
+.meter{height:14px;border-radius:999px;border:2px solid var(--line);background:var(--soft);overflow:hidden;margin-top:6px}
+.meter i{display:block;height:100%;background:var(--mint);width:0;transition:width .4s}
+.ptype{margin:12px 0 4px;font-weight:700;font-size:.92rem;color:var(--muted)}
+.pieces{display:flex;flex-wrap:wrap;gap:8px}
+.piece{box-sizing:border-box;display:inline-block;user-select:none;-webkit-user-select:none;cursor:grab;font-size:.93rem;font-weight:700;padding:8px 12px;border-radius:12px;border:2px solid var(--line);box-shadow:2px 2px 0 var(--line);color:#14163A;line-height:1.3;max-width:100%}
+.piece:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.piece.used{opacity:.35;cursor:default;box-shadow:none}
+.piece[data-t=job]{background:#FFE08A}.piece[data-t=tone]{background:#CFE0FF}.piece[data-t=mem]{background:#E3D7FF}.piece[data-t=tool]{background:#BFF0D8}.piece[data-t=guard]{background:#FFD2CC}
+.slot{background:var(--surface);border:2.5px dashed var(--line);border-radius:16px;padding:12px 14px;margin-bottom:12px;min-height:70px;transition:background .15s}
+.slot.over{background:var(--soft);border-style:solid;border-color:var(--blue)}
+.slot h4{margin:0 0 2px;font-size:1rem;font-family:"Bricolage Grotesque",system-ui,sans-serif}
+.slot .hint{font-size:.85rem;color:var(--muted);margin:0 0 8px}
+.slot .placed{display:flex;flex-wrap:wrap;gap:8px}
+.chip2{display:inline-flex;align-items:center;gap:6px;font-size:.9rem;font-weight:700;padding:6px 6px 6px 11px;border-radius:12px;border:2px solid var(--line);color:#14163A}
+.chip2 button{all:unset;cursor:pointer;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:rgba(20,22,58,.12);font-size:.8rem}
+.chip2[data-t=job]{background:#FFE08A}.chip2[data-t=tone]{background:#CFE0FF}.chip2[data-t=mem]{background:#E3D7FF}.chip2[data-t=tool]{background:#BFF0D8}.chip2[data-t=guard]{background:#FFD2CC}
+.shake{animation:shake .35s}@keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.tip{align-self:center;max-width:94%;font-size:.84rem;font-weight:700;background:#FFF1EE;color:#8A1F12;border:1.5px solid #D4402F;border-radius:10px;padding:6px 10px;text-align:center}
+.tip.good{background:#E7F8EF;color:#0B5E40;border-color:#16936A}
+.lead{color:var(--muted)}
+.cta{margin-top:4px;background:var(--blue);color:var(--on-blue);border-radius:22px;padding:20px;border:2px solid var(--line)}
+.cta h2{color:inherit}.cta .btn{background:var(--sun);color:#14163A}
+.back{all:unset;cursor:pointer;color:var(--muted);text-decoration:underline}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><span class="tag sun">🍁 Build your agent</span><span class="sp"></span><span class="tag" id="aiStatus">Checking live AI…</span></div>
+
+  <section class="screen" id="s-build">
+    <h1>Build an agent for a real business</h1>
+    <p class="lead">Cozy Maple Heating &amp; Cooling needs an agent to answer customers and book jobs while the technicians are out. Tap or drag the pieces you think it needs, then start it and see if it works. Careful: some pieces are traps.</p>
+    <div class="buildgrid">
+      <div class="card" id="box"><h2>🧩 Pieces</h2><div id="palette"></div></div>
+      <div>
+        <div class="card"><div class="agentbar" style="display:flex;gap:12px;align-items:center"><span class="bigicon">🔥</span><div style="flex:1"><b>Ready: <span id="pw">0</span>%</b><div class="meter"><i id="pwbar"></i></div></div></div></div>
+        <div id="slots"></div>
+        <p class="bad" id="dropMsg" role="status" aria-live="polite" style="min-height:1.4em;margin:6px 0"></p>
+        <div class="row"><button class="btn" id="startBtn">▶ Start my agent</button><button class="btn ghost" id="clearBtn">Clear all</button></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="screen" id="s-run" hidden>
+    <div class="row" style="justify-content:space-between;margin-bottom:10px"><h1 style="margin:0">Your agent is working</h1><div class="row"><button class="btn" id="editBtn">🔧 Change pieces</button><button class="btn ghost" id="reset">↺ Start over</button></div></div>
+    <p class="lead" id="pieceSummary"></p>
+    <div class="layout">
+      <section class="phone" aria-label="Customer chat">
+        <div class="wahead"><span class="pic">🔥</span><div><b>Cozy Maple Heating &amp; Cooling</b><small>Business account · usually replies instantly</small></div></div>
+        <div class="msgs" id="msgs" aria-live="polite"></div>
+        <div class="chips" id="chips" aria-label="Suggested customer messages"></div>
+        <form class="compose" id="form"><input id="inp" autocomplete="off" placeholder="Type a message" aria-label="Message"><button class="send" id="sendBtn" aria-label="Send">➤</button></form>
+      </section>
+      <section aria-label="Owner dashboard">
+        <h2>🛠️ Owner dashboard</h2>
+        <div id="alert"></div>
+        <div class="kpis">
+          <div class="kpi"><small>Jobs booked this week</small><b id="kOrders">0</b></div>
+          <div class="kpi"><small>Revenue booked</small><b id="kRev">$0</b></div>
+          <div class="kpi"><small>Messages answered</small><b id="kMsgs">0</b></div>
+          <div class="kpi hi"><small>Owner time saved</small><b id="kTime">0 min</b></div>
+        </div>
+        <div class="card"><h2>📅 Upcoming jobs</h2><div class="tw"><table><thead><tr><th>#</th><th>Customer</th><th>Job</th><th>When</th><th>Price</th></tr></thead><tbody id="orders"></tbody></table></div></div>
+        <div class="card"><h2>🔧 Agent activity</h2><ul class="log" id="log"><li class="note">Waiting for a customer message…</li></ul></div>
+        <div class="card" style="box-shadow:5px 5px 0 var(--mint)"><h2>💼 If you built this for the owner</h2>
+          <div class="price"><div><small class="note">One-time setup</small><b>$500</b></div><div><small class="note">Monthly care plan</small><b>$175</b></div></div>
+          <p style="margin:10px 0 0">The first company to reply usually wins the job. This agent replies in seconds, day and night, while the technicians are on the road.</p>
+          <p class="note" style="margin:6px 0 0">Example prices. The company, technicians and customer are fictional.</p></div>
+        <div class="cta" id="cta"></div>
+      </section>
+    </div>
+  </section>
+</div>
+
+<script>
+var WORKSHOP={title:"Build real agents with us, live",text:"In our 3–4 hour hands-on workshop you’ll build an agent like this for a real business, connect it to a real calendar and phone line, and learn how to price it and land your first client.",url:"",button:"Save my workshop seat"};
+/* ---------- pieces ---------- */
+var PIECES=[
+ {id:"job",type:"job",label:"Answer customers and book jobs for Cozy Maple",text:"Your job: answer customers and book service visits for Cozy Maple Heating & Cooling, a heating and air conditioning company in Mississauga, Ontario (a fictional company for a demo)."},
+ {id:"jobx",type:"job",label:"Write poems about furnaces",decoy:true,why:"That’s not the job this business needs."},
+ {id:"t1",type:"tone",label:"Friendly and short",text:"Be warm, friendly and short: under 60 words, chat style, at most 2 emojis."},
+ {id:"t2",type:"tone",label:"Polite and professional",text:"Be polite, professional and short: under 60 words, no emojis."},
+ {id:"t3",type:"tone",label:"Sarcastic",decoy:true,text:"Be sarcastic and impatient.",why:"Customers leave businesses that are rude to them."},
+ {id:"m1",type:"mem",label:"Services and prices",text:"Services (plus HST): furnace tune-up $129, furnace repair visit $149 (repairs quoted on site), no-heat emergency visit $249, AC tune-up $129, smart thermostat installed $249, maintenance plan $19.99 a month (yearly furnace and AC tune-ups, priority booking, 15% off repairs)."},
+ {id:"m2",type:"mem",label:"Service area",text:"Service area: Mississauga, Brampton, Oakville and Etobicoke only."},
+ {id:"m3",type:"mem",label:"Hours and technicians",text:"Technicians: Mike, Sarah and Daniel. Open Monday to Saturday. Closed Sundays."},
+ {id:"m4",type:"mem",label:"Customer history",text:"Returning customer Jennifer M., phone ending 2264, postal code L5M 6R2, gas furnace installed 2021, last tune-up October 2025, not on the maintenance plan."},
+ {id:"mx",type:"mem",label:"Owner’s golf score",decoy:true,why:"Useless facts only confuse the agent."},
+ {id:"k1",type:"tool",label:"Check schedule",tool:"check_availability"},
+ {id:"k2",type:"tool",label:"Book visit",tool:"book_service"},
+ {id:"k3",type:"tool",label:"Reschedule visit",tool:"reschedule_job"},
+ {id:"k4",type:"tool",label:"Alert the owner",tool:"flag_urgent"},
+ {id:"g1",type:"guard",label:"Ask before booking",text:"Always ask the customer to confirm before booking. The booking tool shows them a confirm button."},
+ {id:"g2",type:"guard",label:"Safety first in emergencies",text:"If a customer mentions a gas smell, carbon monoxide alarm, sparks or smoke: tell them to leave the home now and call 911 or their gas utility’s emergency line from outside, and not to use light switches or appliances. Alert the owner if you can. Don’t book a regular visit for this."},
+ {id:"g3",type:"guard",label:"No guessing: a technician checks",text:"Never diagnose a problem or promise a repair price. Say a technician will check and quote on site."}
+];
+var SLOTS=[
+ {t:"job",icon:"🎯",name:"Job",hint:"What should the agent do? Pick 1.",max:1},
+ {t:"tone",icon:"🗣️",name:"Personality",hint:"How should it talk? Pick 1.",max:1},
+ {t:"mem",icon:"🧠",name:"Memory",hint:"What does it need to know?",max:9},
+ {t:"tool",icon:"🧰",name:"Tools",hint:"What should it be able to do?",max:9},
+ {t:"guard",icon:"✋",name:"Guardrails",hint:"What rules must it follow?",max:9}
+];
+var TYPE_NAME={job:"Job",tone:"Personality",mem:"Memory",tool:"Tools",guard:"Guardrails"};
+var NEEDED=["job","t1","m1","m2","m3","m4","k1","k2","k3","k4","g1","g2","g3"];
+var TECHS=[{name:"Mike",times:["8:00 am","1:00 pm"]},{name:"Sarah",times:["10:00 am","3:00 pm"]},{name:"Daniel",times:["11:00 am","4:00 pm"]}];
+var OPEN_DAYS=["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+var SERVICES={"furnace tune-up":129,"furnace repair visit":149,"no-heat emergency visit":249,"ac tune-up":129,"smart thermostat installed":249};
+var PRESETS=[
+ {k:"noise",label:"🔊 Furnace making a noise",text:"Hi, my furnace is making a rattling noise. How much for someone to come check it?"},
+ {k:"book",label:"📅 Book Thursday morning",text:"Can someone come Thursday morning?"},
+ {k:"fr",label:"🇫🇷 Ask in French",text:"Est-ce que vous offrez un plan d’entretien annuel?"},
+ {k:"move",label:"🔁 Move it to 1 pm",text:"Actually, can we make it 1 pm instead?"},
+ {k:"gas",label:"⚠️ I smell gas",text:"I think I smell gas near the furnace."}
+];
+var S={placed:{},turns:[],orders:[],msgs:0,busy:false,ctl:null,nextId:3101,last:null,taken:{}};
+var LIVE=null,sample=null;
+var reduce=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
+function $(id){return document.getElementById(id)}
+function esc(s){return String(s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]})}
+function wait(ms){return new Promise(function(r){setTimeout(r,ms)})}
+function money(n){return "$"+Number(n).toLocaleString("en-CA",{minimumFractionDigits:0,maximumFractionDigits:2})}
+function now(){return new Date().toLocaleTimeString("en-CA",{hour:"numeric",minute:"2-digit"})}
+function piece(id){return PIECES.find(function(p){return p.id===id})}
+function has(id){return !!S.placed[id]}
+function placedOf(t){return Object.keys(S.placed).filter(function(id){return piece(id).type===t})}
+function show(id){if(S.ctl){S.ctl.abort();S.ctl=null}document.querySelectorAll(".screen").forEach(function(e){e.hidden=e.id!==id});window.scrollTo(0,0);var h=document.querySelector("#"+id+" h1");if(h){h.tabIndex=-1;h.focus({preventScroll:true})}}
+
+/* ---------- builder ---------- */
+function order(arr){return arr.slice().sort(function(a,b){return (a.label.length%5)-(b.label.length%5)||a.label.localeCompare(b.label)})}
+function renderBuild(){
+  var groups=[["job","🎯 Job"],["tone","🗣️ Personality"],["mem","🧠 Memory"],["tool","🧰 Tools"],["guard","✋ Guardrails"]];
+  $("palette").innerHTML=groups.map(function(g){return "<div class=\"ptype\">"+g[1]+"</div><div class=\"pieces\">"+order(PIECES.filter(function(p){return p.type===g[0]})).map(function(p){var u=has(p.id);
+    return "<div role=\"button\" tabindex=\""+(u?"-1":"0")+"\" class=\"piece"+(u?" used":"")+"\" draggable=\""+(!u)+"\" data-p=\""+p.id+"\" data-t=\""+p.type+"\""+(u?" aria-disabled=\"true\"":"")+" aria-label=\"Add piece: "+esc(p.label)+"\">"+esc(p.label)+"</div>"}).join("")+"</div>"}).join("");
+  $("slots").innerHTML=SLOTS.map(function(s){var ids=placedOf(s.t);
+    return "<div class=\"slot\" data-slot=\""+s.t+"\"><h4>"+s.icon+" "+s.name+"</h4><p class=\"hint\">"+s.hint+"</p><div class=\"placed\">"+(ids.length?ids.map(function(id){var p=piece(id);return "<span class=\"chip2\" data-t=\""+p.type+"\">"+esc(p.label)+"<button data-rm=\""+id+"\" aria-label=\"Remove "+esc(p.label)+"\">✕</button></span>"}).join(""):"<span class=\"note\">Drop pieces here</span>")+"</div></div>"}).join("");
+  document.querySelectorAll(".piece[data-p]").forEach(function(el){
+    el.onclick=function(){add(el.dataset.p,null)};
+    el.onkeydown=function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();add(el.dataset.p,null)}};
+    el.ondragstart=function(e){e.dataTransfer.setData("text/plain",el.dataset.p);e.dataTransfer.effectAllowed="move"};
+  });
+  document.querySelectorAll("[data-slot]").forEach(function(sl){
+    sl.ondragover=function(e){e.preventDefault();sl.classList.add("over")};
+    sl.ondragleave=function(){sl.classList.remove("over")};
+    sl.ondrop=function(e){e.preventDefault();sl.classList.remove("over");add(e.dataTransfer.getData("text/plain"),sl.dataset.slot,sl)};
+  });
+  document.querySelectorAll("[data-rm]").forEach(function(b){b.onclick=function(){delete S.placed[b.dataset.rm];$("dropMsg").textContent="";renderBuild()}});
+  var r=readiness();$("pw").textContent=r;$("pwbar").style.width=r+"%";
+}
+function add(id,slotType,slotEl){
+  var p=piece(id);if(!p||has(id))return;
+  if(slotType&&slotType!==p.type){$("dropMsg").textContent="“"+p.label+"” goes in "+TYPE_NAME[p.type]+", not "+TYPE_NAME[slotType]+".";if(slotEl){slotEl.classList.remove("shake");void slotEl.offsetWidth;slotEl.classList.add("shake")}return}
+  var s=SLOTS.find(function(x){return x.t===p.type});
+  if(placedOf(p.type).length>=s.max)placedOf(p.type).forEach(function(o){delete S.placed[o]});
+  S.placed[id]=1;$("dropMsg").textContent="";renderBuild();
+}
+function readiness(){var have=NEEDED.filter(function(id){return has(id)||(id==="t1"&&has("t2"))}).length,dec=Object.keys(S.placed).filter(function(id){return piece(id).decoy}).length;return Math.max(0,Math.round(have/NEEDED.length*100)-dec*10)}
+$("clearBtn").onclick=function(){S.placed={};$("dropMsg").textContent="";renderBuild()};
+$("startBtn").onclick=function(){
+  if(!placedOf("job").length){$("dropMsg").textContent="Give your agent a job first: drag a piece into 🎯 Job.";return}
+  startRun();
+};
+$("editBtn").onclick=function(){renderBuild();show("s-build")};
+
+/* ---------- run screen ---------- */
+function summary(){var c=function(t){return placedOf(t).length};return "Your agent has "+c("mem")+" memory pieces, "+c("tool")+" tools and "+c("guard")+" guardrails ("+readiness()+"% ready). Tap the suggested messages to test it. If something goes wrong, tap 🔧 Change pieces, fix it, and come back."}
+function startRun(){$("pieceSummary").textContent=summary();renderChips();reset();show("s-run")}
+function scroll(){var m=$("msgs");m.scrollTop=m.scrollHeight}
+function bubble(who,text){var d=document.createElement("div");d.className="b "+who;d.textContent=text;var t=document.createElement("span");t.className="t";t.textContent=now()+(who==="me"?" ✓✓":"");d.appendChild(t);$("msgs").appendChild(d);scroll();return d}
+function sys(text){var d=document.createElement("div");d.className="sys";d.textContent=text;$("msgs").appendChild(d);scroll()}
+function tip(text,good){var d=document.createElement("div");d.className="tip"+(good?" good":"");d.textContent=text;$("msgs").appendChild(d);scroll()}
+var typingEl=null;
+function typing(on){if(typingEl){typingEl.remove();typingEl=null}if(on){typingEl=document.createElement("div");typingEl.className="typing";typingEl.textContent="typing…";$("msgs").appendChild(typingEl);scroll()}}
+function renderChips(){$("chips").innerHTML=PRESETS.map(function(p,i){return "<button class=\"chip\" data-i=\""+i+"\">"+esc(p.label)+"</button>"}).join("");
+  document.querySelectorAll("[data-i]").forEach(function(b){b.onclick=function(){if(!S.busy)send(PRESETS[+b.dataset.i].text,PRESETS[+b.dataset.i].k)}})}
+function setBusy(v){S.busy=v;$("sendBtn").disabled=v;document.querySelectorAll(".chip").forEach(function(c){c.disabled=v})}
+function kpis(){var rev=S.orders.reduce(function(a,o){return a+o.price},0);$("kOrders").textContent=S.orders.length;$("kRev").textContent=money(Math.round(rev));$("kMsgs").textContent=S.msgs;$("kTime").textContent=(S.msgs*3)+" min"}
+function renderOrders(hi){$("orders").innerHTML=S.orders.slice().reverse().map(function(o){return "<tr"+(o.id===hi?" class=\"new\"":"")+"><td>"+o.id+"</td><td>"+esc(o.customer)+"</td><td>"+esc(o.service)+"<br><span class=\"note\">with "+esc(o.tech)+(o.notes?" · "+esc(o.notes):"")+"</span></td><td>"+esc(o.day+", "+o.time)+"<br><span class=\"note\">"+esc(o.postal)+"</span></td><td><b>"+money(o.price)+"</b></td></tr>"}).join("");kpis()}
+function logTool(name,args){var l=$("log");if(l.firstChild&&l.firstChild.classList&&l.firstChild.classList.contains("note"))l.innerHTML="";var li=document.createElement("li");var c=document.createElement("div");c.className="call";c.textContent=now()+"  "+name+"("+JSON.stringify(args||{})+")";li.appendChild(c);l.appendChild(li);l.scrollTop=l.scrollHeight;return li}
+function logResult(li,html){var p=document.createElement("div");p.innerHTML=html;p.style.marginTop="3px";li.appendChild(p);$("log").scrollTop=$("log").scrollHeight}
+function seed(){S.taken={"Mike|Thursday|8:00 am":1};S.orders=[{id:3099,customer:"Tom R.",service:"AC tune-up",tech:"Daniel",day:"Tuesday",time:"8:00 am",postal:"L6J",price:129,notes:""},{id:3100,customer:"Aisha N.",service:"Furnace tune-up",tech:"Mike",day:"Thursday",time:"8:00 am",postal:"M9B",price:129,notes:""}];S.msgs=9;S.nextId=3101;S.last=null;renderOrders();$("alert").innerHTML=""}
+var DAYS=["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
+var FR={lundi:"Monday",mardi:"Tuesday",mercredi:"Wednesday",jeudi:"Thursday",vendredi:"Friday",samedi:"Saturday",dimanche:"Sunday"};
+function dayName(o){return new Date(Date.now()+o*864e5).toLocaleDateString("en-US",{weekday:"long"})}
+function normDay(d){d=String(d||"").toLowerCase();if(/tomorrow|tmrw|demain/.test(d))return dayName(1);if(/today|tonight|asap|now|aujourd/.test(d))return dayName(0);var f=Object.keys(FR).find(function(k){return d.indexOf(k)>=0});if(f)return FR[f];return DAYS.find(function(x){return d.indexOf(x.toLowerCase().slice(0,3))>=0})||""}
+function normTime(t){t=String(t||"").toLowerCase().replace(/\s+/g,"");var m=t.match(/(\d{1,2})(?::(\d{2}))?(am|pm)?/);if(!m)return "";var h=+m[1],mi=m[2]||"00",ap=m[3]||(h>=7&&h<=11?"am":"pm");if(h>12){h-=12;ap="pm"}return h+":"+mi+" "+ap}
+function free(t,day,time){return OPEN_DAYS.indexOf(day)>=0&&t.times.indexOf(time)>=0&&!S.taken[t.name+"|"+day+"|"+time]}
+function findTech(n){n=String(n||"").toLowerCase();return TECHS.find(function(i){return i.name.toLowerCase()===n})}
+function svcPrice(n){n=String(n||"").toLowerCase();var k=Object.keys(SERVICES).find(function(x){return n.indexOf(x)>=0||x.indexOf(n)>=0});return k?{name:k.charAt(0).toUpperCase()+k.slice(1),price:SERVICES[k]}:{name:"Furnace repair visit",price:149}}
+function inArea(pc){pc=String(pc||"").toUpperCase().replace(/\s+/g,"");return /^(L4[TWXYZ]|L5|L6[HJKLM]|L6[PRSTVWXYZ]|L7A|M8|M9)/.test(pc)}
+function askConfirm(summary){return new Promise(function(res){var d=document.createElement("div");d.className="confirm";d.innerHTML="<b>Please confirm your booking</b><div style=\"white-space:pre-wrap;margin-top:4px\">"+esc(summary)+"</div><div class=\"row\"><button class=\"btn ok\" data-c=\"1\">✅ Confirm</button><button class=\"btn ghost\" data-c=\"0\">✏️ Change</button></div>";$("msgs").appendChild(d);scroll();typing(false);
+  d.querySelectorAll("[data-c]").forEach(function(b){b.onclick=function(){d.querySelector(".row").remove();var ok=b.dataset.c==="1";var p=document.createElement("div");p.className="note";p.textContent=ok?"✅ Confirmed by customer":"✏️ Customer asked to change";p.style.marginTop="6px";d.appendChild(p);res(ok)}});d.querySelector("[data-c]").focus()})}
+
+/* ---------- tools (only the ones you picked) ---------- */
+var ALL_TOOLS={
+ check_availability:{name:"check_availability",description:"Find free technician times. day can be today, tomorrow or a day of the week. Optional part_of_day: morning or afternoon. Closed Sundays.",
+  inputSchema:{type:"object",properties:{day:{type:"string"},part_of_day:{type:"string"}},required:["day"]},
+  execute:async function(a){var li=logTool("check_availability",a);await wait(350);var day=normDay(a.day),part=String(a.part_of_day||"").toLowerCase();
+   if(!day){logResult(li,"<span class=\"bad\">→ Unknown day</span>");throw new Error("Use today, tomorrow or a day of the week.")}
+   if(OPEN_DAYS.indexOf(day)<0){logResult(li,"<span class=\"bad\">→ Closed on "+day+"</span>");return {closed:true,day:day}}
+   var out=[];TECHS.forEach(function(t){t.times.forEach(function(tm){var am=/am$/.test(tm);if(part==="morning"&&!am)return;if(part==="afternoon"&&am)return;if(free(t,day,tm))out.push({technician:t.name,day:day,time:tm})})});
+   logResult(li,out.length?"<span class=\"okc\">→ "+out.map(function(o){return o.technician+" "+o.time}).join(", ")+"</span>":"<span class=\"bad\">→ No free times</span>");return out}},
+ book_service:{name:"book_service",description:"Book a service visit for the customer. Returns the job id.",
+  inputSchema:{type:"object",properties:{customer_name:{type:"string"},service:{type:"string"},technician:{type:"string"},day:{type:"string"},time:{type:"string"},postal_code:{type:"string"},notes:{type:"string"}},required:["technician","day","time"]},
+  execute:async function(a){var li=logTool("book_service",a);var t=findTech(a.technician),day=normDay(a.day),time=normTime(a.time),sv=svcPrice(a.service),pc=String(a.postal_code||(has("m4")?"L5M 6R2":"unknown"));
+   if(!t||!day||!time||!free(t,day,time)){logResult(li,"<span class=\"bad\">→ That time isn't free</span>");throw new Error("That time is not available.")}
+   var summ=sv.name+"  "+money(sv.price)+" + HST\nTechnician: "+t.name+"\n"+day+", "+time+"\nAddress: "+pc;
+   if(has("g1")){logResult(li,"<span class=\"note\">✋ Waiting for the customer to confirm…</span>");var ok=await askConfirm(summ);if(!ok){logResult(li,"<span class=\"bad\">→ Customer wants changes</span>");throw new Error("The customer wants to change something.")}}
+   else logResult(li,"<span class=\"bad\">⚠️ Booked without asking the customer</span>");
+   S.taken[t.name+"|"+day+"|"+time]=1;var o={id:S.nextId++,customer:has("m4")?"Jennifer M.":"Unknown customer",service:sv.name,tech:t.name,day:day,time:time,postal:pc.slice(0,3),price:sv.price,notes:String(a.notes||"")};
+   S.orders.push(o);S.last=o;renderOrders(o.id);logResult(li,"<span class=\"okc\">→ Job #"+o.id+" booked</span>");typing(true);return {job_id:o.id,status:"booked",technician:t.name,day:day,time:time}}},
+ reschedule_job:{name:"reschedule_job",description:"Move a booked job to a new time (and optionally day). Another free technician is used if needed.",
+  inputSchema:{type:"object",properties:{job_id:{type:"number"},new_time:{type:"string"},new_day:{type:"string"}},required:["new_time"]},
+  execute:async function(a){var li=logTool("reschedule_job",a);await wait(350);var o=S.orders.find(function(x){return x.id===Number(a.job_id)})||S.last;
+   if(!o||o.id<3101){logResult(li,"<span class=\"bad\">→ No booking to move</span>");throw new Error("No booking from this customer yet.")}
+   var day=normDay(a.new_day)||o.day,time=normTime(a.new_time),t=[findTech(o.tech)].concat(TECHS).find(function(x){return x&&free(x,day,time)});
+   if(!t){logResult(li,"<span class=\"bad\">→ Not free</span>");throw new Error("No technician is free then.")}
+   delete S.taken[o.tech+"|"+o.day+"|"+o.time];o.day=day;o.time=time;o.tech=t.name;S.taken[t.name+"|"+day+"|"+time]=1;renderOrders(o.id);
+   logResult(li,"<span class=\"okc\">→ Job #"+o.id+" moved to "+esc(day+", "+time)+" with "+esc(t.name)+"</span>");return {job_id:o.id,day:day,time:time,technician:t.name}}},
+ flag_urgent:{name:"flag_urgent",description:"Alert the owner immediately about a safety issue such as a gas smell, carbon monoxide alarm, sparks or smoke.",
+  inputSchema:{type:"object",properties:{reason:{type:"string"}},required:["reason"]},
+  execute:async function(a){var li=logTool("flag_urgent",a);await wait(200);
+   $("alert").innerHTML="<div class=\"card\" style=\"border-color:var(--coral);box-shadow:4px 4px 0 var(--coral)\"><h2 class=\"bad\" style=\"margin:0\">🚨 Urgent: "+esc(String(a.reason||"Safety issue"))+"</h2><p style=\"margin:6px 0 0\">The customer was told to leave the home and call 911 or the gas utility. Owner alerted by text.</p></div>";
+   logResult(li,"<span class=\"bad\">→ Owner alerted</span>");return {owner_alerted:true}}},
+ order_pizza:{name:"order_pizza",description:"Order a pizza.",execute:async function(){var li=logTool("order_pizza",{});logResult(li,"<span class=\"bad\">→ 🍕 Why does a heating agent have this?</span>");return {ordered:true}}}
+};
+function myTools(){return placedOf("tool").map(function(id){return ALL_TOOLS[piece(id).tool]}).filter(Boolean)}
+function rules(){
+  var d=new Date(),t=new Date(d.getTime()+864e5),f=function(x){return x.toLocaleDateString("en-CA",{weekday:"long",month:"long",day:"numeric"})};
+  var get=function(ty){return placedOf(ty).map(function(id){return piece(id).text}).filter(Boolean)};
+  var job=placedOf("job")[0]==="jobx"?"Your job: write poems about furnaces.":get("job").join(" ");
+  return "You are an AI assistant for a business. "+job+"\n"+(get("tone")[0]||"")+"\nToday is "+f(d)+". Tomorrow is "+f(t)+".\n\nWHAT YOU KNOW (nothing else):\n- "+(get("mem").join("\n- ")||"(nothing)")+"\n\nRULES:\n- "+(get("guard").join("\n- ")||"(none)")+"\n\nOnly use the facts above and your tools. If you don’t know something or can’t do it with your tools, say so honestly. Be proactive: if a customer wants a visit and you can check the schedule, check it right away. Reply in the customer’s language. Do not write any text before or between tool calls.";
+}
+
+/* ---------- practice mode: replies depend on your pieces ---------- */
+var SARC=function(s){return has("t3")?"Ugh, fine. "+s+" Happy now?":s};
+async function demo(k){
+  var T=function(n){return ALL_TOOLS[n]};
+  if(placedOf("job")[0]==="jobx"){await wait(700);typing(false);bubble("them",SARC("Roses are red, your furnace is grey, it rattles all night and it rattles all day. 🔥"));tip("❌ Wrong job: it’s writing poems instead of helping customers. Change the 🎯 Job.");return}
+  if(!k){await wait(700);typing(false);bubble("them","This is practice mode, so tap one of the suggested messages. ");return}
+  var r=null,tips=[];
+  if(k==="noise"){
+    await wait(700);
+    if(!has("m1")){r="Hi! I’m not sure what we charge for that. Could you call the office?";tips.push("❌ It didn’t know your prices. Add 🧠 Services and prices.")}
+    else if(!has("g3")){r=(has("m4")?"Hi Jennifer! ":"Hi! ")+"That sounds like a loose blower motor. It’s an $89 fix, and we can do it today.";tips.push("❌ It guessed the problem and made up a price. Add ✋ No guessing.")}
+    else{r=(has("m4")?"Hi Jennifer! 👋 Your furnace was last serviced in October 2025. ":"Hi there! ")+"A repair visit is $149 + HST: the technician checks the rattle and quotes any repair before doing the work. Want me to book one?";if(!has("m4"))tips.push("💡 It didn’t recognise Jennifer. Add 🧠 Customer history to make it personal.")}
+  }
+  if(k==="book"){
+    if(!has("k1")){await wait(700);r="I can’t see the schedule, so I don’t know when a technician is free. Please call the office.";tips.push("❌ It couldn’t check the schedule. Add 🧰 Check schedule.")}
+    else{await T("check_availability").execute({day:"Thursday",part_of_day:"morning"});
+      if(!has("k2")){r="Sarah is free Thursday at 10:00 am, but I can’t book it for you. Please call the office.";tips.push("❌ It couldn’t book. Add 🧰 Book visit.")}
+      else{typing(false);if(!has("m2"))tips.push("💡 It didn’t check the address is in your service area. Add 🧠 Service area.");
+        if(has("g1"))bubble("them",SARC("Sarah is free Thursday at 10:00 am."+(has("m2")?" Your address is in our area. ✅":"")));
+        try{await T("book_service").execute({service:"Furnace repair visit",technician:"Sarah",day:"Thursday",time:"10:00 am",postal_code:has("m4")?"L5M 6R2":"",notes:"Rattling noise"});
+          r=has("g1")?"Booked! 🎉 Sarah will be there Thursday at 10:00 am.":"Done! I booked Sarah for Thursday at 10:00 am.";if(!has("g1"))tips.push("❌ It booked without asking the customer. Add ✋ Ask before booking.")}
+        catch(e){r="No problem! What would you like to change?"}}}
+  }
+  if(k==="fr"){await wait(700);if(!has("m1")){r="Désolé, je ne connais pas nos prix. Pouvez-vous appeler le bureau?";tips.push("❌ It didn’t know your prices. Add 🧠 Services and prices.")}
+    else r="Oui! 😊 Notre plan d’entretien coûte 19,99 $ par mois : une mise au point annuelle de la fournaise et du climatiseur, un service prioritaire et 15 % de rabais sur les réparations. Voulez-vous que je l’ajoute à votre dossier?"}
+  if(k==="move"){
+    if(!S.last){await wait(600);r="I don’t see a booking to move yet. Want me to book a visit first?";tips.push("💡 Book a visit first, then try this.")}
+    else if(!has("k3")){await wait(700);r="Sorry, I can’t change bookings. Please call the office.";tips.push("❌ It couldn’t reschedule. Add 🧰 Reschedule visit.")}
+    else{try{var x=await T("reschedule_job").execute({job_id:S.last.id,new_time:"1:00 pm"});r="Done! 🔁 Your visit is now "+x.day+" at 1:00 pm with "+x.technician+"."}catch(e){r="Sorry, nobody is free at 1:00 pm. Want another time?"}}
+  }
+  if(k==="gas"){
+    if(!has("g2")){await wait(700);r="Oh no! Want me to book a technician for Thursday morning?";tips.push("🚨 Dangerous: it treated a gas smell like a normal booking. Add ✋ Safety first in emergencies.")}
+    else{if(has("k4"))await T("flag_urgent").execute({reason:"Customer reports a gas smell near the furnace"});else tips.push("❌ It couldn’t alert the owner. Add 🧰 Alert the owner.");
+      r="⚠️ Please leave your home right now, with everyone inside. Don’t use light switches, appliances or your phone inside.\nOnce you’re outside, call 911 or your gas utility’s emergency line."+(has("k4")?"\nI’ve alerted our owner.":"")}
+  }
+  if(has("t3"))tips.push("❌ Rude tone. Customers would leave. Change the 🗣️ Personality.");
+  if(has("mx")&&k==="noise")tips.push("💡 “Owner’s golf score” is useless to the agent. Remove it.");
+  typing(false);bubble("them",SARC(r));
+  if(tips.length)tips.forEach(function(t){tip(t)});else tip("✅ Perfect answer. Your pieces worked!",true);
+}
+
+async function send(text,presetKey){
+  text=String(text||"").trim();if(!text||S.busy)return;
+  setBusy(true);bubble("me",text);$("inp").value="";S.turns.push({role:"user",content:text});
+  try{
+    if(LIVE&&sample){
+      typing(true);var ctl=new AbortController();S.ctl=ctl;var tools=myTools(),opts={modelTier:"quick",signal:ctl.signal};if(tools.length)opts.tools=tools;else opts.cache=false;
+      var r=await sample([{role:"user",content:rules()}].concat(S.turns.slice(-12)),opts);
+      var out=String(r.text||"").trim();typing(false);bubble("them",out);S.turns.push({role:"assistant",content:out});
+    } else {typing(true);await demo(presetKey)}
+    S.msgs++;kpis();
+  }catch(e){typing(false);
+    if(e&&["not_granted","sampling_disabled","capability_disabled","not_declared","tools_unavailable"].indexOf(e.code)>=0){setMode(false);sys("Live AI isn’t available here. Switched to practice mode: tap a suggested message.")}
+    else if(e&&e.code==="rate_limited")sys("Too many messages right now. Wait a minute and try again.");
+    else if(e&&e.code!=="cancelled")sys("The agent couldn’t reply. Try again.");
+  }finally{setBusy(false);S.ctl=null}
+}
+$("form").onsubmit=function(e){e.preventDefault();send($("inp").value,null)};
+function reset(){if(S.ctl)S.ctl.abort();S.turns=[];$("msgs").innerHTML="";$("log").innerHTML="<li class=\"note\">Waiting for a customer message…</li>";seed();sys("Today");setBusy(false);
+  sys(has("m4")?"Customer: Jennifer M. (returning)":"Customer: a new customer");}
+$("reset").onclick=reset;
+function setMode(live){LIVE=live;var s=$("aiStatus");s.textContent=live?"🟢 Live AI":"🎬 Practice mode";s.className="tag"+(live?" ok":" sun");$("inp").placeholder=live?"Type any message":"Practice mode: tap a suggested message"}
+var cta=WORKSHOP.url?"<a class=\"btn\" href=\""+esc(WORKSHOP.url)+"\" target=\"_blank\" rel=\"noopener\">"+WORKSHOP.button+"</a>":"<span class=\"btn\" role=\"note\">Ask your host for the workshop link</span>";
+$("cta").innerHTML="<h2>"+WORKSHOP.title+"</h2><p>"+WORKSHOP.text+"</p>"+cta;
+renderBuild();
+(async function(){
+  try{if(window.claude&&window.claude.use){var s=await window.claude.use("sample");if(s){var lim=await s.limits().catch(function(){return null});if(!lim||lim.tools){sample=s;setMode(true);return}}}}catch(e){}
+  setMode(false);
+})();
+setTimeout(function(){if(LIVE===null)setMode(false)},12000);
+
+</script>
+</body>
+</html>

@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Showcase: Home Services Booking Agent</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&display=swap" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&display=swap"></noscript>
+<style>
+:root{
+  --bg:#EEF0FF;--surface:#FFFFFF;--ink:#14163A;--muted:#55597F;--line:#14163A;
+  --blue:#3346E8;--on-blue:#FFFFFF;--sun:#FFC93C;--mint:#16936A;--coral:#D4402F;--soft:#DDE1FF;--code:#F3F4FF;
+  --wa-bg:#ECE5DD;--wa-me:#DCF8C6;--wa-them:#FFFFFF;--wa-head:#075E54;--wa-ink:#111B21;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  color-scheme:dark;--bg:#101231;--surface:#1B1E48;--ink:#EEF0FF;--muted:#A9ADD6;--line:#8C93F0;
+  --blue:#6F7DFF;--on-blue:#0E1030;--soft:#272B60;--mint:#3DD39A;--coral:#FF7A6B;--code:#14163A;
+  --wa-bg:#0B141A;--wa-me:#005C4B;--wa-them:#202C33;--wa-head:#1F2C34;--wa-ink:#E9EDEF;}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#101231;--surface:#1B1E48;--ink:#EEF0FF;--muted:#A9ADD6;--line:#8C93F0;
+  --blue:#6F7DFF;--on-blue:#0E1030;--soft:#272B60;--mint:#3DD39A;--coral:#FF7A6B;--code:#14163A;
+  --wa-bg:#0B141A;--wa-me:#005C4B;--wa-them:#202C33;--wa-head:#1F2C34;--wa-ink:#E9EDEF;}
+*,*::before,*::after{box-sizing:inherit}
+[hidden]{display:none!important}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.5 "Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif}
+h1,h2,h3{font-family:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;line-height:1.12;margin:0 0 .4em}
+h1{font-size:clamp(1.7rem,5vw,2.6rem);font-weight:800;letter-spacing:-.02em}
+h2{font-size:1.25rem;font-weight:800}
+.wrap{max-width:1180px;margin:0 auto;padding:18px 16px 50px}
+.top{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:6px}
+.top .sp{flex:1}
+.tag{display:inline-block;font-weight:700;font-size:.82rem;padding:2px 10px;border-radius:999px;border:1.5px solid var(--line);background:var(--soft);color:var(--ink)}
+.tag.ok{background:var(--mint);color:#fff;border-color:var(--mint)}
+.tag.sun{background:var(--sun);color:#14163A}
+.lead{color:var(--muted);margin:0 0 16px;max-width:70ch}
+.layout{display:grid;gap:20px;grid-template-columns:minmax(0,1fr)}
+.layout>*{min-width:0}
+@media(min-width:900px){.layout{grid-template-columns:400px minmax(0,1fr);align-items:start}}
+.phone{background:var(--wa-bg);border:2.5px solid var(--line);border-radius:28px;overflow:hidden;box-shadow:6px 6px 0 var(--line);display:flex;flex-direction:column;height:min(720px,82vh)}
+@media(min-width:900px){.phone{position:sticky;top:calc(12px + env(safe-area-inset-top,0px))}}
+.wahead{background:var(--wa-head);color:#fff;padding:12px 14px;display:flex;align-items:center;gap:10px}
+.wahead .pic{width:38px;height:38px;border-radius:50%;background:#FFC93C;display:grid;place-items:center;font-size:1.3rem;flex:none}
+.wahead b{display:block;font-size:1rem}.wahead small{opacity:.85}
+.msgs{flex:1;overflow-y:auto;padding:14px 12px;display:flex;flex-direction:column;gap:8px}
+.b{max-width:85%;padding:8px 11px;border-radius:10px;color:var(--wa-ink);white-space:pre-wrap;word-break:break-word;font-size:.97rem;box-shadow:0 1px 1px rgba(0,0,0,.12)}
+.b.me{align-self:flex-end;background:var(--wa-me);border-top-right-radius:2px}
+.b.them{align-self:flex-start;background:var(--wa-them);border-top-left-radius:2px}
+.b .t{display:block;text-align:right;font-size:.7rem;opacity:.6;margin-top:2px}
+.sys{align-self:center;font-size:.8rem;background:var(--wa-them);color:var(--wa-ink);padding:4px 10px;border-radius:8px;opacity:.9;text-align:center;max-width:90%}
+.typing{align-self:flex-start;background:var(--wa-them);color:var(--wa-ink);padding:8px 12px;border-radius:10px;font-size:.88rem}
+.confirm{align-self:flex-start;background:var(--wa-them);color:var(--wa-ink);border-radius:10px;padding:10px 12px;max-width:88%;border:2px solid var(--mint)}
+.confirm .row{margin-top:8px}
+.chips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:thin;padding:8px 10px;background:var(--wa-bg);border-top:1px solid rgba(0,0,0,.08)}
+.chip{all:unset;box-sizing:border-box;cursor:pointer;white-space:nowrap;font-size:.85rem;padding:6px 11px;border-radius:999px;background:var(--wa-them);color:var(--wa-ink);border:1.5px solid var(--mint)}
+.chip:focus-visible,.btn:focus-visible,input:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.compose{display:flex;gap:8px;padding:8px 10px;background:var(--wa-bg)}
+.compose input{flex:1;min-width:0;font:inherit;padding:10px 14px;border-radius:999px;border:none;background:var(--wa-them);color:var(--wa-ink)}
+.send{all:unset;cursor:pointer;width:42px;height:42px;border-radius:50%;background:#00A884;color:#fff;display:grid;place-items:center;font-size:1.1rem;flex:none}
+.send[disabled]{opacity:.5;cursor:default}
+.btn{all:unset;box-sizing:border-box;cursor:pointer;display:inline-flex;align-items:center;gap:6px;font-weight:700;padding:8px 14px;border-radius:999px;background:var(--blue);color:var(--on-blue);border:2px solid var(--line);font-size:.92rem}
+.btn.ghost{background:var(--surface);color:var(--ink)}
+.btn.ok{background:#00A884;color:#fff;border-color:#00A884}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.card{background:var(--surface);border:2px solid var(--line);border-radius:18px;padding:16px;box-shadow:4px 4px 0 var(--line);margin-bottom:16px}
+.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:16px}
+@media(min-width:640px){.kpis{grid-template-columns:repeat(4,1fr)}}
+.kpi{background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:12px 14px;box-shadow:3px 3px 0 var(--line)}
+.kpi small{color:var(--muted);font-weight:700;display:block}
+.kpi b{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-size:1.7rem;font-weight:800;line-height:1.1}
+.kpi.hi{background:var(--sun);color:#14163A}.kpi.hi small{color:#14163A}
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:.92rem}th,td{border-bottom:1.5px solid var(--soft);padding:7px 8px;text-align:left;vertical-align:top}
+th{font-size:.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:.03em}
+tr.new td{background:rgba(255,201,60,.25)}
+.log{list-style:none;padding:0;margin:0;display:grid;gap:8px;max-height:300px;overflow-y:auto}
+.log li{font-size:.88rem}
+.call{font-family:ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;font-size:.8rem;background:var(--code);border:1.5px solid var(--soft);border-radius:8px;padding:6px 8px;white-space:pre-wrap;word-break:break-word}
+.okc{color:var(--mint);font-weight:700}.bad{color:var(--coral);font-weight:700}
+.mem{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.mem span{font-size:.85rem;padding:3px 10px;border-radius:999px;background:var(--soft);border:1.5px solid var(--line)}
+.price{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}
+.price div{border:2px solid var(--line);border-radius:12px;padding:10px;text-align:center}
+.price b{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-size:1.5rem;display:block}
+.note{color:var(--muted);font-size:.86rem}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><span class="tag sun">🍁 Showcase</span><span class="sp"></span><span class="tag" id="aiStatus">Checking live AI…</span><button class="btn ghost" id="reset">↺ Start over</button></div>
+  <h1>An agent you can build and sell</h1>
+  <p class="lead">A booking agent for a local heating and cooling company. Customers chat on the left. The owner sees jobs and revenue come in on the right. The company, technicians and prices are fictional, made for this demo.</p>
+  <div class="layout">
+    <section class="phone" aria-label="Customer chat">
+      <div class="wahead"><span class="pic">🔥</span><div><b>Cozy Maple Heating &amp; Cooling</b><small>Business account · usually replies instantly</small></div></div>
+      <div class="msgs" id="msgs" aria-live="polite"></div>
+      <div class="chips" id="chips" aria-label="Suggested customer messages"></div>
+      <form class="compose" id="form"><input id="inp" autocomplete="off" placeholder="Type a message" aria-label="Message"><button class="send" id="sendBtn" aria-label="Send">➤</button></form>
+    </section>
+    <section aria-label="Owner dashboard">
+      <h2>🛠️ Owner dashboard: Cozy Maple Heating &amp; Cooling</h2>
+      <div id="alert"></div>
+      <div class="kpis">
+        <div class="kpi"><small>Jobs booked this week</small><b id="kOrders">0</b></div>
+        <div class="kpi"><small>Revenue booked</small><b id="kRev">$0</b></div>
+        <div class="kpi"><small>Messages answered</small><b id="kMsgs">0</b></div>
+        <div class="kpi hi"><small>Owner time saved</small><b id="kTime">0 min</b></div>
+      </div>
+      <div class="card"><h2>📅 Upcoming jobs</h2><div class="tw"><table><thead><tr><th>#</th><th>Customer</th><th>Job</th><th>When</th><th>Price</th></tr></thead><tbody id="orders"></tbody></table></div></div>
+      <div class="card"><h2>🧠 What the agent remembers</h2><p class="note" style="margin:0">Services, prices, technician schedules and customer history, loaded from the company’s booking sheet.</p>
+        <div class="mem"><span>🧾 6 services and a maintenance plan</span><span>👷 3 technicians and their schedules</span><span>📍 Serves Mississauga, Brampton, Oakville and Etobicoke</span><span>🚨 Gas smell: safety first, alert the owner</span><span>👤 Returning: Jennifer M., gas furnace installed 2021, last tune-up Oct 2025</span></div></div>
+      <div class="card"><h2>🔧 Agent activity <span class="note" style="font-weight:400">(work the owner never has to do)</span></h2><ul class="log" id="log"><li class="note">Waiting for a customer message…</li></ul></div>
+      <div class="card" style="box-shadow:5px 5px 0 var(--mint)"><h2>💼 If you built this for the owner</h2>
+        <div class="price"><div><small class="note">One-time setup</small><b>$500</b></div><div><small class="note">Monthly care plan</small><b>$175</b></div></div>
+        <p style="margin:10px 0 0">When a furnace stops on a January night, the first company to reply gets the job. A missed call can be a lost repair, or a lost $5,000 furnace install. The agent replies in seconds, day and night, while the technicians are on the road.</p>
+        <p class="note" style="margin:6px 0 0">Example prices. Real rates depend on your market, skills and client.</p></div>
+    </section>
+  </div>
+</div>
+
+<script>
+var SERVICES=[
+ {name:"Furnace tune-up",price:129,desc:"Inspect, clean and test your furnace. About 1 hour."},
+ {name:"Furnace repair visit",price:149,desc:"Technician diagnoses the problem. Parts and repair are quoted on site before any work."},
+ {name:"No-heat emergency visit",price:249,desc:"After-hours or same-day visit when you have no heat."},
+ {name:"AC tune-up",price:129,desc:"Clean and test your air conditioner before summer."},
+ {name:"New thermostat installed",price:249,desc:"Smart thermostat supplied and installed."},
+ {name:"Comfort maintenance plan",price:19.99,monthly:true,desc:"Yearly furnace and AC tune-ups, priority booking and 15% off repairs. $19.99 a month."}
+];
+var TECHS=[
+ {name:"Mike",times:["8:00 am","1:00 pm"]},
+ {name:"Sarah",times:["10:00 am","3:00 pm"]},
+ {name:"Daniel",times:["11:00 am","4:00 pm"]}
+];
+var OPEN_DAYS=["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+var CUSTOMER={name:"Jennifer M.",phone:"…2264",postal:"L5M 6R2",home:"Gas furnace installed 2021, central AC",last:"Last furnace tune-up October 2025",plan:"Not on the maintenance plan yet"};
+function todayInfo(){var d=new Date(),t=new Date(d.getTime()+864e5);var f=function(x){return x.toLocaleDateString("en-CA",{weekday:"long",month:"long",day:"numeric"})};return "Today is "+f(d)+". Tomorrow is "+f(t)+". The company is closed on Sundays."}
+function RULES(){return BASE_RULES.replace("{TODAY}",todayInfo())}
+var BASE_RULES="You are the booking assistant for Cozy Maple Heating & Cooling, a heating and air conditioning company in Mississauga, Ontario (a fictional company for a demo). Be warm and short: under 60 words, chat style, at most 2 emojis. Reply in the same language the customer writes in (English or French).\n\n{TODAY}\n\nHow to behave:\n- Understand everyday requests like “tomorrow”, “this weekend”, “ASAP” or “next Tuesday”. You know today’s date, so work out the day yourself. Never ask the customer what day it is.\n- Be proactive. When the customer wants a visit, call check_availability right away and offer the earliest slot that fits. Never ask for information you already have: their address, furnace details and the problem are in memory or earlier in the chat.\n- Don’t repeat what you already said. Move the conversation forward with one clear next step.\n\nRules:\n- Use get_services for prices. Never invent services or prices. Prices are plus HST. Repairs are quoted on site before any work.\n- Use check_availability before offering a time. Only offer times it returns.\n- Before booking, double-check the postal code is in the service area (Mississauga, Brampton, Oakville, Etobicoke) and the time is really free. Then tell the customer the details.\n- Only call book_service when the customer clearly wants to book; they will be asked to confirm. Use reschedule_job to move a confirmed job.\n- SAFETY: if the customer mentions a gas smell, carbon monoxide alarm, sparks or smoke, call flag_urgent first. Tell them to leave the home right away and call 911 or their gas utility's emergency line from outside, and not to use light switches or appliances. Do not book a regular visit for this.\n- Don't diagnose for certain. Say a technician will check.\n- Do not write any text before or between tool calls. Write only your final reply to the customer.\n\nCustomer memory (returning customer): "+CUSTOMER.name+", phone ending "+CUSTOMER.phone+", postal code "+CUSTOMER.postal+". "+CUSTOMER.home+". "+CUSTOMER.last+". "+CUSTOMER.plan+". Greet them by first name.";
+var PRESETS=[
+ {k:"noise",label:"🔊 Furnace making a noise",text:"Hi, my furnace is making a rattling noise. How much for someone to come check it?"},
+ {k:"book",label:"📅 Book Thursday morning",text:"Can someone come Thursday morning?"},
+ {k:"fr",label:"🇫🇷 Ask in French",text:"Est-ce que vous offrez un plan d’entretien annuel?"},
+ {k:"move",label:"🔁 Move it to 1 pm",text:"Actually, can we make it 1 pm instead?"},
+ {k:"gas",label:"⚠️ I smell gas",text:"I think I smell gas near the furnace."}
+];
+var S={turns:[],orders:[],msgs:0,busy:false,ctl:null,nextId:3101,last:null,taken:{}};
+var LIVE=null,sample=null;
+function $(id){return document.getElementById(id)}
+function esc(s){return String(s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]})}
+function wait(ms){return new Promise(function(r){setTimeout(r,ms)})}
+function money(n){return "$"+Number(n).toLocaleString("en-CA",{minimumFractionDigits:0,maximumFractionDigits:2})}
+function now(){return new Date().toLocaleTimeString("en-CA",{hour:"numeric",minute:"2-digit"})}
+function scroll(){var m=$("msgs");m.scrollTop=m.scrollHeight}
+function bubble(who,text){var d=document.createElement("div");d.className="b "+who;d.textContent=text;var t=document.createElement("span");t.className="t";t.textContent=now()+(who==="me"?" ✓✓":"");d.appendChild(t);$("msgs").appendChild(d);scroll();return d}
+function sys(text){var d=document.createElement("div");d.className="sys";d.textContent=text;$("msgs").appendChild(d);scroll()}
+var typingEl=null;
+function typing(on){if(typingEl){typingEl.remove();typingEl=null}if(on){typingEl=document.createElement("div");typingEl.className="typing";typingEl.textContent="typing…";$("msgs").appendChild(typingEl);scroll()}}
+function renderChips(){$("chips").innerHTML=PRESETS.map(function(p,i){return "<button class=\"chip\" data-i=\""+i+"\">"+esc(p.label)+"</button>"}).join("");
+  document.querySelectorAll("[data-i]").forEach(function(b){b.onclick=function(){if(!S.busy)send(PRESETS[+b.dataset.i].text,PRESETS[+b.dataset.i].k)}})}
+function setBusy(v){S.busy=v;$("sendBtn").disabled=v;document.querySelectorAll(".chip").forEach(function(c){c.disabled=v})}
+function kpis(){var rev=S.orders.reduce(function(a,o){return a+o.price},0);$("kOrders").textContent=S.orders.length;$("kRev").textContent=money(Math.round(rev));$("kMsgs").textContent=S.msgs;$("kTime").textContent=(S.msgs*3)+" min"}
+function renderOrders(hi){
+  $("orders").innerHTML=S.orders.slice().reverse().map(function(o){return "<tr"+(o.id===hi?" class=\"new\"":"")+"><td>"+o.id+"</td><td>"+esc(o.customer)+"</td><td>"+esc(o.service)+"<br><span class=\"note\">with "+esc(o.tech)+(o.notes?" · "+esc(o.notes):"")+"</span></td><td>"+esc(o.day+", "+o.time)+"<br><span class=\"note\">"+esc(o.postal)+"</span></td><td><b>"+money(o.price)+"</b></td></tr>"}).join("");kpis()}
+function logTool(name,args){var l=$("log");if(l.firstChild&&l.firstChild.classList&&l.firstChild.classList.contains("note"))l.innerHTML="";var li=document.createElement("li");var c=document.createElement("div");c.className="call";c.textContent=now()+"  "+name+"("+JSON.stringify(args||{})+")";li.appendChild(c);l.appendChild(li);l.scrollTop=l.scrollHeight;return li}
+function logResult(li,html){var p=document.createElement("div");p.innerHTML=html;p.style.marginTop="3px";li.appendChild(p);$("log").scrollTop=$("log").scrollHeight}
+function seed(){
+  S.taken={"Mike|Thursday|8:00 am":1};
+  S.orders=[{id:3099,customer:"Tom R.",service:"AC tune-up",tech:"Daniel",day:"Tuesday",time:"8:00 am",postal:"L6J",price:129,notes:""},{id:3100,customer:"Aisha N.",service:"Furnace tune-up",tech:"Mike",day:"Thursday",time:"8:00 am",postal:"M9B",price:129,notes:""}];
+  S.msgs=9;S.nextId=3101;renderOrders();$("alert").innerHTML="";
+}
+var DAYS=["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
+var FR={lundi:"Monday",mardi:"Tuesday",mercredi:"Wednesday",jeudi:"Thursday",vendredi:"Friday",samedi:"Saturday",dimanche:"Sunday"};
+function dayName(offset){var d=new Date(Date.now()+offset*864e5);return d.toLocaleDateString("en-US",{weekday:"long"})}
+function normDay(d){d=String(d||"").toLowerCase();
+  if(/tomorrow|tmrw|demain/.test(d))return dayName(1);
+  if(/today|tonight|asap|now|aujourd/.test(d))return dayName(0);
+  var f=Object.keys(FR).find(function(k){return d.indexOf(k)>=0});if(f)return FR[f];
+  return DAYS.find(function(x){return d.indexOf(x.toLowerCase().slice(0,3))>=0})||""}
+function normTime(t){t=String(t||"").toLowerCase().replace(/\s+/g,"");var m=t.match(/(\d{1,2})(?::(\d{2}))?(am|pm)?/);if(!m)return "";var h=+m[1],mi=m[2]||"00",ap=m[3]||(h>=7&&h<=11?"am":"pm");if(h>12){h-=12;ap="pm"}return h+":"+mi+" "+ap}
+function findSvc(n){n=String(n||"").toLowerCase();return SERVICES.find(function(p){return p.name.toLowerCase()===n})||SERVICES.find(function(p){var w=p.name.toLowerCase().split(" ");return n.indexOf(w[0])>=0&&n.indexOf(w[1])>=0})||SERVICES[1]}
+function findTech(n){n=String(n||"").toLowerCase();return TECHS.find(function(i){return i.name.toLowerCase()===n})}
+function free(t,day,time){return OPEN_DAYS.indexOf(day)>=0&&t.times.indexOf(time)>=0&&!S.taken[t.name+"|"+day+"|"+time]}
+function inArea(pc){pc=String(pc||"").toUpperCase().replace(/\s+/g,"");return /^(L4[TWXYZ]|L5|L6[HJKLM]|L6[PRSTVWXYZ]|L7A|M8|M9)/.test(pc)}
+function askConfirm(summary){
+  return new Promise(function(res){
+    var d=document.createElement("div");d.className="confirm";
+    d.innerHTML="<b>Please confirm your booking</b><div style=\"white-space:pre-wrap;margin-top:4px\">"+esc(summary)+"</div><div class=\"row\"><button class=\"btn ok\" data-c=\"1\">✅ Confirm</button><button class=\"btn ghost\" data-c=\"0\">✏️ Change</button></div>";
+    $("msgs").appendChild(d);scroll();typing(false);
+    d.querySelectorAll("[data-c]").forEach(function(b){b.onclick=function(){d.querySelector(".row").remove();var ok=b.dataset.c==="1";var p=document.createElement("div");p.className="note";p.textContent=ok?"✅ Confirmed by customer":"✏️ Customer asked to change";p.style.marginTop="6px";d.appendChild(p);res(ok)}});
+    d.querySelector("[data-c]").focus();
+  });
+}
+var TOOLS=[
+ {name:"get_services",description:"Get the company's services and prices in CAD (plus HST), with descriptions.",
+  execute:async function(){var li=logTool("get_services",{});await wait(300);logResult(li,"<span class=\"okc\">→ "+SERVICES.length+" services</span>");return SERVICES.map(function(p){return {name:p.name,price_cad_plus_hst:p.price,per:p.monthly?"month":"visit",description:p.desc}})}},
+ {name:"check_availability",description:"Find free technician times. day can be today, tomorrow or a day of the week. Optional part_of_day: morning or afternoon. Returns technician, day and time. Closed Sundays.",
+  inputSchema:{type:"object",properties:{day:{type:"string"},part_of_day:{type:"string"}},required:["day"]},
+  execute:async function(a){var li=logTool("check_availability",a);await wait(350);var day=normDay(a.day),part=String(a.part_of_day||"").toLowerCase();
+   if(!day){logResult(li,"<span class=\"bad\">→ Unknown day</span>");throw new Error("Use today, tomorrow or a day of the week, like Thursday.")}
+   if(OPEN_DAYS.indexOf(day)<0){logResult(li,"<span class=\"bad\">→ Closed on "+day+"</span>");return {closed:true,day:day,message:"Closed on Sundays. Offer the next open day."}}
+   var out=[];TECHS.forEach(function(t){t.times.forEach(function(tm){var am=/am$/.test(tm);if(part==="morning"&&!am)return;if(part==="afternoon"&&am)return;if(free(t,day,tm))out.push({technician:t.name,day:day,time:tm})})});
+   logResult(li,out.length?"<span class=\"okc\">→ "+out.map(function(o){return o.technician+" "+o.time}).join(", ")+"</span>":"<span class=\"bad\">→ No free times</span>");return out}},
+ {name:"book_service",description:"Book a visit after the customer clearly asks to. The customer will be shown a confirm button. Returns the job id if confirmed.",
+  inputSchema:{type:"object",properties:{customer_name:{type:"string"},service:{type:"string"},technician:{type:"string"},day:{type:"string"},time:{type:"string"},postal_code:{type:"string"},notes:{type:"string"}},required:["service","technician","day","time"]},
+  execute:async function(a){var li=logTool("book_service",a);var t=findTech(a.technician),day=normDay(a.day),time=normTime(a.time),sv=findSvc(a.service),pc=String(a.postal_code||CUSTOMER.postal);
+   if(!inArea(pc)){logResult(li,"<span class=\"bad\">→ Outside service area</span>");throw new Error("That postal code is outside the service area.")}
+   if(!t||!day||!time||!free(t,day,time)){logResult(li,"<span class=\"bad\">→ That time isn't free</span>");throw new Error("That technician, day and time is not available. Check availability again.")}
+   var summary=sv.name+"  "+money(sv.price)+" + HST\nTechnician: "+t.name+"\n"+day+", "+time+"\nAddress on file: "+pc+(a.notes?"\nNote: "+a.notes:"");
+   logResult(li,"<span class=\"note\">✋ Waiting for the customer to confirm…</span>");
+   var ok=await askConfirm(summary);
+   if(!ok){logResult(li,"<span class=\"bad\">→ Customer wants changes</span>");throw new Error("The customer did not confirm and wants to change something. Ask what to change.")}
+   S.taken[t.name+"|"+day+"|"+time]=1;
+   var o={id:S.nextId++,customer:a.customer_name||CUSTOMER.name,service:sv.name,tech:t.name,day:day,time:time,postal:pc.slice(0,3),price:sv.price,notes:String(a.notes||"")};
+   S.orders.push(o);S.last=o;renderOrders(o.id);logResult(li,"<span class=\"okc\">→ Job #"+o.id+" confirmed</span>");typing(true);
+   return {job_id:o.id,status:"confirmed",technician:t.name,day:day,time:time}}},
+ {name:"reschedule_job",description:"Move a confirmed job to a new time (and optionally a new day). If the same technician is busy, another free technician is used. Returns the updated job.",
+  inputSchema:{type:"object",properties:{job_id:{type:"number"},new_time:{type:"string"},new_day:{type:"string"}},required:["job_id","new_time"]},
+  execute:async function(a){var li=logTool("reschedule_job",a);await wait(350);var o=S.orders.find(function(x){return x.id===Number(a.job_id)})||S.last;
+   if(!o){logResult(li,"<span class=\"bad\">→ No such job</span>");throw new Error("No job found")}
+   var day=normDay(a.new_day)||o.day,time=normTime(a.new_time);
+   var t=[findTech(o.tech)].concat(TECHS).find(function(x){return x&&free(x,day,time)});
+   if(!t){logResult(li,"<span class=\"bad\">→ "+esc(day+" "+time)+" isn't free</span>");throw new Error("No technician is free on "+day+" at "+time+". Offer other times from check_availability.")}
+   delete S.taken[o.tech+"|"+o.day+"|"+o.time];o.day=day;o.time=time;o.tech=t.name;S.taken[t.name+"|"+day+"|"+time]=1;renderOrders(o.id);
+   logResult(li,"<span class=\"okc\">→ Job #"+o.id+" moved to "+esc(day+", "+time)+" with "+esc(t.name)+"</span>");return {job_id:o.id,day:day,time:time,technician:t.name}}},
+ {name:"flag_urgent",description:"Alert the owner immediately about a safety issue such as a gas smell, carbon monoxide alarm, sparks or smoke.",
+  inputSchema:{type:"object",properties:{reason:{type:"string"}},required:["reason"]},
+  execute:async function(a){var li=logTool("flag_urgent",a);await wait(200);
+   $("alert").innerHTML="<div class=\"card\" style=\"border-color:var(--coral);box-shadow:4px 4px 0 var(--coral)\"><h2 class=\"bad\" style=\"margin:0\">🚨 Urgent: "+esc(String(a.reason||"Safety issue"))+"</h2><p style=\"margin:6px 0 0\">"+esc(CUSTOMER.name)+" ("+esc(CUSTOMER.postal)+"). The customer was told to leave the home and call 911 or the gas utility. Owner alerted by text.</p></div>";
+   logResult(li,"<span class=\"bad\">→ Owner alerted</span>");return {owner_alerted:true}}}
+];
+var SCRIPT={
+ noise:{calls:[["get_services",{}]],reply:"Hi Jennifer! 👋 A rattling furnace is worth checking. A repair visit is $149 + HST: the technician finds the cause and quotes any repair before doing the work.\nYour last tune-up was October 2025, so it’s also a good time for one ($129). Want me to book a visit?"},
+ book:{calls:[["check_availability",{day:"Thursday",part_of_day:"morning"}]],pre:"Thursday morning works! Sarah is free at 10:00 am, and your Mississauga address is in our area. ✅",
+  place:{customer_name:"Jennifer M.",service:"Furnace repair visit",technician:"Sarah",day:"Thursday",time:"10:00 am",postal_code:"L5M 6R2",notes:"Rattling noise"},reply:"Booked! 🎉 Sarah will be there Thursday at 10:00 am to check the rattling noise. She’ll quote any repair before starting."},
+ fr:{calls:[["get_services",{}]],reply:"Oui! 😊 Notre plan d’entretien coûte 19,99 $ par mois : une mise au point annuelle de la fournaise et du climatiseur, un service prioritaire et 15 % de rabais sur les réparations. Voulez-vous que je l’ajoute à votre dossier?"},
+ move:{calls:[["reschedule_job",{job_id:3101,new_time:"1:00 pm"}]],reply:"Done! 🔁 Your visit is now Thursday at 1:00 pm. Mike will come instead of Sarah, since he’s free then."},
+ gas:{calls:[["flag_urgent",{reason:"Customer reports a gas smell near the furnace"}]],reply:"⚠️ Please leave your home right now, with everyone inside. Don’t use light switches, appliances or your phone inside.\nOnce you’re outside, call 911 or your gas utility’s emergency line.\nI’ve alerted our owner. We’ll follow up once it’s safe."}
+};
+async function runScript(k){
+  var sc=SCRIPT[k];if(!sc){await wait(600);typing(false);bubble("them","This is demo mode, so I can only answer the suggested messages below. 🙂");return}
+  typing(true);
+  for(var i=0;i<sc.calls.length;i++){await wait(500);var t=TOOLS.find(function(x){return x.name===sc.calls[i][0]});try{await t.execute(sc.calls[i][1])}catch(e){}}
+  if(sc.place){await wait(400);typing(false);bubble("them",sc.pre);await wait(500);var ok=true;try{await TOOLS.find(function(x){return x.name==="book_service"}).execute(sc.place)}catch(e){ok=false}
+    await wait(500);typing(false);bubble("them",ok?sc.reply:"No problem! What would you like to change? 🙂");return}
+  await wait(500);typing(false);bubble("them",sc.reply);
+}
+async function send(text,presetKey){
+  text=String(text||"").trim();if(!text||S.busy)return;
+  setBusy(true);bubble("me",text);$("inp").value="";S.turns.push({role:"user",content:text});
+  try{
+    if(LIVE&&sample){
+      typing(true);var ctl=new AbortController();S.ctl=ctl;
+      var r=await sample([{role:"user",content:RULES()}].concat(S.turns.slice(-12)),{modelTier:"quick",tools:TOOLS,signal:ctl.signal});
+      var out=String(r.text||"").trim();typing(false);bubble("them",out);S.turns.push({role:"assistant",content:out});
+    } else await runScript(presetKey);
+    S.msgs++;kpis();
+  }catch(e){
+    typing(false);
+    if(e&&["not_granted","sampling_disabled","capability_disabled","not_declared","tools_unavailable"].indexOf(e.code)>=0){setMode(false);sys("Live AI isn’t available here. Switched to demo mode: tap a suggested message.")}
+    else if(e&&e.code==="rate_limited")sys("Too many messages right now. Wait a minute and try again.");
+    else if(e&&e.code!=="cancelled")sys("The agent couldn’t reply. Try again.");
+  }finally{setBusy(false);S.ctl=null}
+}
+$("form").onsubmit=function(e){e.preventDefault();send($("inp").value,null)};
+function setMode(live){LIVE=live;var s=$("aiStatus");s.textContent=live?"🟢 Live AI":"🎬 Demo mode";s.className="tag"+(live?" ok":" sun");$("inp").placeholder=live?"Type a message":"Demo mode: tap a suggested message"}
+function reset(){if(S.ctl)S.ctl.abort();S.turns=[];S.last=null;$("msgs").innerHTML="";$("log").innerHTML="<li class=\"note\">Waiting for a customer message…</li>";seed();sys("Today");setBusy(false);sys("🔒 Demo chat. The company, technicians and customer are fictional.")}
+$("reset").onclick=reset;
+renderChips();reset();
+(async function(){
+  try{if(window.claude&&window.claude.use){var s=await window.claude.use("sample");if(s){var lim=await s.limits().catch(function(){return null});if(!lim||lim.tools){sample=s;setMode(true);return}}}}catch(e){}
+  setMode(false);
+})();
+setTimeout(function(){if(LIVE===null)setMode(false)},12000);
+
+</script>
+</body>
+</html>
