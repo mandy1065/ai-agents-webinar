@@ -52,7 +52,7 @@ h2{font-size:1.25rem;font-weight:800}
 .typing{align-self:flex-start;background:var(--wa-them);color:var(--wa-ink);padding:8px 12px;border-radius:10px;font-size:.88rem}
 .confirm{align-self:flex-start;background:var(--wa-them);color:var(--wa-ink);border-radius:10px;padding:10px 12px;max-width:88%;border:2px solid var(--mint)}
 .confirm .row{margin-top:8px}
-.chips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:thin;padding:8px 10px;background:var(--wa-bg);border-top:1px solid rgba(0,0,0,.08)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;overflow-x:auto;scrollbar-width:thin;padding:8px 10px;background:var(--wa-bg);border-top:1px solid rgba(0,0,0,.08)}
 .chip{all:unset;box-sizing:border-box;cursor:pointer;white-space:nowrap;font-size:.85rem;padding:6px 11px;border-radius:999px;background:var(--wa-them);color:var(--wa-ink);border:1.5px solid var(--mint)}
 .chip:focus-visible,.btn:focus-visible,input:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
 .compose{display:flex;gap:8px;padding:8px 10px;background:var(--wa-bg)}
@@ -120,7 +120,7 @@ tr.new td{background:rgba(255,201,60,.25)}
 
   <section class="screen" id="s-build">
     <h1>Build an agent for a real business</h1>
-    <p class="lead">Cozy Maple Heating &amp; Cooling needs an agent to answer customers and book jobs while the technicians are out. Tap or drag the pieces you think it needs, then start it and see if it works. Careful: some pieces are traps.</p>
+    <p class="lead">Cozy Maple Heating &amp; Cooling needs an agent to answer customers and book jobs while the technicians are out. Tap or drag the pieces you think it needs, then start it and see if it works.</p>
     <div class="buildgrid">
       <div class="card" id="box"><h2>🧩 Pieces</h2><div id="palette"></div></div>
       <div>
@@ -168,15 +168,12 @@ var WORKSHOP={title:"Build real agents with us, live",text:"In our 3–4 hour ha
 /* ---------- pieces ---------- */
 var PIECES=[
  {id:"job",type:"job",label:"Answer customers and book jobs for Cozy Maple",text:"Your job: answer customers and book service visits for Cozy Maple Heating & Cooling, a heating and air conditioning company in Mississauga, Ontario (a fictional company for a demo)."},
- {id:"jobx",type:"job",label:"Write poems about furnaces",decoy:true,why:"That’s not the job this business needs."},
  {id:"t1",type:"tone",label:"Friendly and short",text:"Be warm, friendly and short: under 60 words, chat style, at most 2 emojis."},
  {id:"t2",type:"tone",label:"Polite and professional",text:"Be polite, professional and short: under 60 words, no emojis."},
- {id:"t3",type:"tone",label:"Sarcastic",decoy:true,text:"Be sarcastic and impatient.",why:"Customers leave businesses that are rude to them."},
  {id:"m1",type:"mem",label:"Services and prices",text:"Services (plus HST): furnace tune-up $129, furnace repair visit $149 (repairs quoted on site), no-heat emergency visit $249, AC tune-up $129, smart thermostat installed $249, maintenance plan $19.99 a month (yearly furnace and AC tune-ups, priority booking, 15% off repairs)."},
  {id:"m2",type:"mem",label:"Service area",text:"Service area: Mississauga, Brampton, Oakville and Etobicoke only."},
  {id:"m3",type:"mem",label:"Hours and technicians",text:"Technicians: Mike, Sarah and Daniel. Open Monday to Saturday. Closed Sundays."},
  {id:"m4",type:"mem",label:"Customer history",text:"Returning customer Jennifer M., phone ending 2264, postal code L5M 6R2, gas furnace installed 2021, last tune-up October 2025, not on the maintenance plan."},
- {id:"mx",type:"mem",label:"Owner’s golf score",decoy:true,why:"Useless facts only confuse the agent."},
  {id:"k1",type:"tool",label:"Check schedule",tool:"check_availability"},
  {id:"k2",type:"tool",label:"Book visit",tool:"book_service"},
  {id:"k3",type:"tool",label:"Reschedule visit",tool:"reschedule_job"},
@@ -358,8 +355,6 @@ async function demo(k){
     else{if(has("k4"))await T("flag_urgent").execute({reason:"Customer reports a gas smell near the furnace"});else tips.push("❌ It couldn’t alert the owner. Add 🧰 Alert the owner.");
       r="⚠️ Please leave your home right now, with everyone inside. Don’t use light switches, appliances or your phone inside.\nOnce you’re outside, call 911 or your gas utility’s emergency line."+(has("k4")?"\nI’ve alerted our owner.":"")}
   }
-  if(has("t3"))tips.push("❌ Rude tone. Customers would leave. Change the 🗣️ Personality.");
-  if(has("mx")&&k==="noise")tips.push("💡 “Owner’s golf score” is useless to the agent. Remove it.");
   typing(false);bubble("them",SARC(r));
   if(tips.length)tips.forEach(function(t){tip(t)});else tip("✅ Perfect answer. Your pieces worked!",true);
 }
